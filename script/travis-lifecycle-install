@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 GHCVER=${GHCVER?"GHCVER needs to be set."}
 LIBRARY=${LIBRARY?"LIBRARY needs to be set."}
@@ -9,6 +9,8 @@ path=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 $path/travis-timeout \
     stack --no-terminal --skip-ghc-check --stack-yaml stack-$GHCVER.yaml setup
+
+stack exec ghc -- --version
 
 if [ "$LIBRARY" != "documentation" ]; then
     $path/travis-timeout \
